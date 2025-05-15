@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Магазин - Магазин меблів{% endblock %}
+{% block content %}
+    <!-- shop section start -->
+    <div class="design_section layout_padding">
+        <div class="container">
+            <h1 class="design_taital">Наші меблі</h1>
+            <p class="design_text">Ознайомтеся з нашим асортиментом меблів</p>
+            <div class="design_section_2">
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-4">
+                            <div class="box_main">
+                                <p class="chair_text">{{ product.name }}</p>
+                                <div class="image_3">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                </div>
+                                <p class="chair_text">Ціна: {{ product.price }} грн</p>
+                                <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a></div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>Немає товарів у цій категорії.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- shop section end -->
+{% endblock %}

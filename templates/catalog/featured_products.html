@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Рекомендовані товари - Магазин меблів{% endblock %}
+{% block content %}
+    <!-- featured products section start -->
+    <div class="design_section layout_padding">
+        <div class="container">
+            <h1 class="design_taital">Рекомендовані товари</h1>
+            <p class="design_text">Ознайомтеся з нашими найкращими пропозиціями</p>
+            <div class="design_section_2">
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-4">
+                            <div class="box_main">
+                                <p class="chair_text">{{ product.name }}</p>
+                                <div class="image_3">
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                </div>
+                                <p class="chair_text">Ціна: {{ product.price }} грн</p>
+                                <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a></div>
+                            </div>
+                        </div>
+                    {% empty %}
+                        <p>Немає рекомендованих товарів.</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- featured products section end -->
+{% endblock %}

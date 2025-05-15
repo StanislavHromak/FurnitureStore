@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %}{{ product.name }} - Магазин меблів{% endblock %}
+{% block content %}
+    <div class="container layout_padding">
+        <h1>{{ product.name }}</h1>
+        <div class="row">
+            <div class="col-md-6">
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100%;">
+            </div>
+            <div class="col-md-6">
+                <p><strong>Ціна:</strong> {{ product.price }} грн</p>
+                <p><strong>Категорія:</strong> {{ product.category.name }}</p>
+                <p><strong>Опис:</strong> {{ product.description }}</p>
+                <p><strong>Наявність:</strong> {% if product.stock > 0 %}В наявності ({{ product.stock }} шт.){% else %}Немає в наявності{% endif %}</p>
+                <div class="buy_bt"><a href="#">Додати до кошика</a></div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
