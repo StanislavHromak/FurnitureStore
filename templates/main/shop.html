@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Shop - Магазин меблів{% endblock %}
+{% block content %}
+    <!-- shop section start -->
+    <div class="shop_section layout_padding">
+        <div class="container">
+            <h1 class="shop_taital">Наші товари</h1>
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4">
+                        <div class="box_main">
+                            <p class="chair_text">{{ product.name }}</p>
+                            <div class="image_3">
+                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                            </div>
+                            <p class="chair_text">Ціна: {{ product.price }} грн</p>
+                            <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a></div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p>Немає товарів у магазині.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- shop section end -->
+
+    <!-- subscribe section start -->
+    <div class="subscribe_section layout_padding">
+        <div class="container">
+            <h1 class="subscribe_taital">Підписатися на новинну стрічку</h1>
+            <div class="subscribe_bt"><a href="#">Підписатися зараз</a></div>
+        </div>
+    </div>
+    <!-- subscribe section end -->
+{% endblock %}

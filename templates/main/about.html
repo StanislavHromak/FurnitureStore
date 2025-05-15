@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Про нас - Магазин меблів{% endblock %}
+{% block content %}
+    <!-- about section start -->
+    <div class="about_section layout_padding">
+        <div class="container">
+            <div class="about_section_2">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="image_2"><img src="{% static 'images/img-2.png' %}" alt="Інтер'єр з нашими меблями"></div>
+                    </div>
+                    <div class="col-md-6">
+                        <h1 class="about_taital">Про нас</h1>
+                        <p class="about_text">Ми – сімейна компанія, яка вже понад 10 років створює стильні та якісні меблі для вашого дому. Наша команда об’єднує дизайнерів, майстрів та консультантів, які прагнуть зробити ваш інтер’єр унікальним і комфортним. Ми віримо, що меблі – це не просто предмети, а спосіб виразити ваш стиль та створити затишок.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- about section end -->
+
+    <!-- our values section start -->
+    <div class="values_section layout_padding">
+        <div class="container">
+            <h1 class="values_taital">Чому обирають нас</h1>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="value_box">
+                        <h3>Якість</h3>
+                        <p>Ми використовуємо лише перевірені матеріали, щоб ваші меблі служили роками.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value_box">
+                        <h3>Дизайн</h3>
+                        <p>Наші дизайнери створюють унікальні рішення, які підкреслять ваш стиль.</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="value_box">
+                        <h3>Обслуговування</h3>
+                        <p>Індивідуальний підхід до кожного клієнта – наш пріоритет.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- our values section end -->
+{% endblock %}

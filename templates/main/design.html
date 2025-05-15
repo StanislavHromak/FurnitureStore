@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Наші дизайни - Магазин меблів{% endblock %}
+{% block content %}
+    <!-- design section start -->
+    <div class="design_section layout_padding">
+        <div id="my_slider" class="carousel slide" data-ride="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+                    <div class="container">
+                        <h1 class="design_taital">Наші дизайни меблів</h1>
+                        <p class="design_text">Ознайомтеся з нашими унікальними дизайнами</p>
+                        <div class="design_section_2">
+                            <div class="row">
+                                {% for product in products %}
+                                    <div class="col-md-4">
+                                        <div class="box_main">
+                                            <p class="chair_text">{{ product.name }}</p>
+                                            <div class="image_3">
+                                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                            </div>
+                                            <p class="chair_text">Ціна: {{ product.price }} грн</p>
+                                            <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a></div>
+                                        </div>
+                                    </div>
+                                {% empty %}
+                                    <p>Немає рекомендованих товарів.</p>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#my_slider" role="button" data-slide="prev">
+                <i class="fa fa-long-arrow-left" style="font-size:24px"></i>
+            </a>
+            <a class="carousel-control-next" href="#my_slider" role="button" data-slide="next">
+                <i class="fa fa-long-arrow-right" style="font-size:24px"></i>
+            </a>
+        </div>
+        <div class="container">
+            <div class="read_bt"><a href="{% url 'catalog:product_list' %}">Дивитися всі</a></div>
+        </div>
+    </div>
+    <!-- design section end -->
+{% endblock %}
