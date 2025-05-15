@@ -26,7 +26,7 @@ urlpatterns = [
     path('catalog/', include('catalog.urls')),
 ]
 
-# Маршрути для статичних і медіа-файлів у режимі розробки
+# Маршрути для статичних файлів і медіафайлів у режимі розробки
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
