@@ -773,7 +773,6 @@ input.email_text::placeholder {
 
 /* contact section end */
 
-
 /* footer section start */
 
 .footer_section {
@@ -791,15 +790,22 @@ input.email_text::placeholder {
 .footer_location_text ul {
     margin: 0px;
     padding: 0px;
-    display: inline-block;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
     text-align: center;
 }
 
 .footer_location_text li {
-    float: left;
+    float: none; /* Змінено з float: left, оскільки використовуємо flex */
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
     font-size: 16px;
     color: #ffffff;
-    padding: 50px 80px;
+    padding: 0; /* Прибрано padding: 50px 80px, щоб усе вмістилося в один рядок */
 }
 
 .footer_location_text li a {
@@ -808,6 +814,10 @@ input.email_text::placeholder {
 
 .footer_location_text li a:hover {
     color: #7c2c0c;
+}
+
+.footer_location_text li img {
+    margin-right: 10px; /* Додано для відступу між іконкою та текстом */
 }
 
 .padding_left_10 {
@@ -838,7 +848,6 @@ input.email_text::placeholder {
     -webkit-border-radius: 27px;
 }
 
-
 /* facebook button class*/
 
 .facebookBtn {
@@ -861,7 +870,6 @@ a.facebookBtn.smGlobalBtn.active {
     background: #7c2c0c;
 }
 
-
 /* twitter button class*/
 
 .twitterBtn {
@@ -879,7 +887,6 @@ a.facebookBtn.smGlobalBtn.active {
     background: #7c2c0c;
 }
 
-
 /* google plus button class*/
 
 .googleplusBtn {
@@ -896,7 +903,6 @@ a.facebookBtn.smGlobalBtn.active {
     color: #fff;
     background: #7c2c0c;
 }
-
 
 /* linkedin button class*/
 
@@ -966,9 +972,20 @@ a.facebookBtn.smGlobalBtn.active {
     color: #7c2c0c;
 }
 
+/* Додано для рівномірного розташування стовпчиків у footer */
+.footer_section .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.footer_section .col-lg-3 {
+    flex: 1;
+    min-width: 200px;
+}
 
 /* footer section end */
-
 
 /* copright section start */
 
@@ -1000,3 +1017,45 @@ a.facebookBtn.smGlobalBtn.active {
 
 /* copyright section end */
 
+.box_main {
+    height: 400px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: space-between !important;
+    padding: 15px !important;
+    text-align: center;
+    overflow: hidden; /* Запобігаємо виходу елементів за межі */
+}
+
+.image_3 {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.image_3 img {
+    max-height: 200px !important;
+    max-width: 100% !important;
+    object-fit: contain !important;
+}
+
+.chair_text {
+    margin: 10px 0;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.buy_bt {
+    margin-top: auto; /* Розташовуємо внизу контейнера */
+    margin-bottom: 10px; /* Додаємо відступ знизу, щоб кнопка не прилягала до краю */
+}
+
+.buy_bt a {
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    display: inline-block;
+    transition: background-color 0.3s;
+}
