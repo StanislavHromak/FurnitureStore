@@ -24,6 +24,8 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('catalog/', include('catalog.urls')),
+    path('users/', include('users.urls')),
+    path('cart/', include('cart.urls'))
 ]
 
 # Маршрути для статичних файлів і медіафайлів у режимі розробки
