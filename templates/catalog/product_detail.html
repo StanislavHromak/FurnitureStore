@@ -1,19 +1,26 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block title %}{{ product.name }} - Магазин меблів{% endblock %}
+
 {% block content %}
-    <div class="container layout_padding">
-        <h1>{{ product.name }}</h1>
+<div class="product_detail_wrapper layout_padding">
+    <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <img src="{{ product.image.url }}" alt="{{ product.name }}" style="max-width: 100%;">
+                <div class="product_image_box">
+                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid">
+                </div>
             </div>
             <div class="col-md-6">
-                <p><strong>Ціна:</strong> {{ product.price }} грн</p>
-                <p><strong>Категорія:</strong> {{ product.category.name }}</p>
-                <p><strong>Опис:</strong> {{ product.description }}</p>
-                <p><strong>Наявність:</strong> {% if product.stock > 0 %}В наявності ({{ product.stock }} шт.){% else %}Немає в наявності{% endif %}</p>
-                <div class="buy_bt"><a href="#">Додати до кошика</a></div>
+                <div class="product_info_box banner_frame"> <!-- клас банерної рамки -->
+                    <h1 class="product_title">{{ product.name }}</h1>
+                    <p class="product_price">Ціна: {{ product.price }} грн</p>
+                    <p class="product_description">{{ product.description }}</p>
+                    <div class="buy_bt"><a href="#" class="btn btn-primary btn-block">Додати до кошика</a></div>
+                </div>
             </div>
         </div>
     </div>
+</div>
 {% endblock %}

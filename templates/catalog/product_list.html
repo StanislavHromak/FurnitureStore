@@ -1,50 +1,69 @@
 {% extends 'base.html' %}
 {% block title %}Магазин - Магазин меблів{% endblock %}
 {% block content %}
-    <!-- shop section start -->
-    <div class="design_section layout_padding">
-        <div class="container">
-            <h1 class="design_taital">Наші меблі</h1>
-            <p class="design_text">Ознайомтеся з нашим асортиментом меблів</p>
-
-            <!-- Фільтрація -->
-            <div class="filter-section mb-4">
-                <form method="get" class="row g-3">
-                    <div class="col-auto">
-                        <select name="category" class="form-control" onchange="this.form.submit()">
-                            <option value="">Всі категорії</option>
-                            {% for cat in categories %}
-                                <option value="{{ cat.id }}" {% if selected_category|add:"0" == cat.id|stringformat:"s" %}selected{% endif %}>
-                                    {{ cat.name }}
-                                </option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div class="col-auto">
-                        <input type="text" name="search" class="form-control" value="{{ search_query|default:'' }}" placeholder="Пошук за назвою" onchange="this.form.submit()">
-                    </div>
-                </form>
+    <div class="auth-box">
+        <h2>Магазин</h2>
+        <!-- Фільтрація -->
+        <form method="get" class="row g-3">
+            <div class="form-group mb-3">
+                <select name="category" class="form-control" onchange="this.form.submit()">
+                    <option value="">Всі категорії</option>
+                    {% for cat in categories %}
+                        <option value="{{ cat.id }}" {% if selected_category|add:"0" == cat.id|stringformat:"s" %}selected{% endif %}>
+                            {{ cat.name }}
+                        </option>
+                    {% endfor %}
+                </select>
             </div>
+            <div class="form-group mb-3">
+                <input type="text" name="search" class="form-control" value="{{ search_query|default:'' }}" placeholder="Пошук за назвою" onchange="this.form.submit()">
+            </div>
+        </form>
 
-            <div class="design_section_2">
+        <div class="product-list">
+            {% if products %}
                 <div class="row g-3">
                     {% for product in products %}
-                        <div class="col-md-4">
-                            <div class="box_main">
-                                <p class="chair_text">{{ product.name }}</p>
-                                <div class="image_3">
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                        <div class="col-md-12 mb-3">
+                            <div class="box_main" style="height: 200px; display: flex; align-items: center; justify-content: center; border: 1px solid #b48569; background-color: #fff; border-radius: 5px;">
+                                <div>
+                                    <p class="chair_text">{{ product.name }}</p>
+                                    <p class="chair_text">Ціна: {{ product.price }} грн</p>
+                                    <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}" class="btn btn-primary btn-block">Дізнатися більше</a></div>
                                 </div>
-                                <p class="chair_text">Ціна: {{ product.price }} грн</p>
-                                <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a></div>
                             </div>
                         </div>
-                    {% empty %}
-                        <p>Немає товарів у цій категорії.</p>
                     {% endfor %}
                 </div>
-            </div>
+            {% else %}
+                <p>Немає товарів у цій категорії.</p>
+            {% endif %}
         </div>
     </div>
-    <!-- shop section end -->
+
+    <style>
+        .auth-box {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 40px;
+            border: 1px solid #b48569;
+            background-color: #fae6c4;
+            box-shadow: 0px 0px 15px rgba(124, 44, 12, 0.2);
+            border-radius: 10px;
+        }
+        .auth-box h2 {
+            color: #7c2c0c;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .btn-primary {
+            background-color: #7c2c0c;
+            border-color: #7c2c0c;
+        }
+        .btn-primary:hover {
+            background-color: #b48569;
+            border-color: #b48569;
+        }
+    </style>
 {% endblock %}
