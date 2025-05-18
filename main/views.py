@@ -16,6 +16,3 @@ def shop(request):
     products = Product.objects.all()  # Усі товари для магазину
     return render(request, 'main/shop.html', {'products': products})
 
-def contact(request):
-    return render(request, 'main/contact.html')
-
