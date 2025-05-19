@@ -83,24 +83,42 @@
         <div class="container">
             <h1 class="design_taital">Рекомендовані товари</h1>
             <p class="design_text">Ознайомтеся з нашими найкращими пропозиціями</p>
-            <div class="design_section_2">
-                <div class="row">
-                    {% for product in featured_products %}
-                        <div class="col-md-4">
-                            <div class="box_main">
-                                <p class="chair_text">{{ product.name }}</p>
-                                <div class="image_3">
-                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+            <div id="featured_slider" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    {% for group in chunked_products %}
+                        <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                            <div class="container">
+                                <div class="design_section_2">
+                                    <div class="row">
+                                        {% for product in group %}
+                                            <div class="col-md-4">
+                                                <div class="box_main">
+                                                    <p class="chair_text">{{ product.name }}</p>
+                                                    <img src="{{ product.image.url }}" alt="{{ product.name }}" class="image_3">
+                                                    <p class="chair_text">Ціна: {{ product.price }} грн</p>
+                                                    <div class="buy_bt">
+                                                        <a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
                                 </div>
-                                <p class="chair_text">Ціна: {{ product.price }} грн</p>
-                                <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a></div>
                             </div>
                         </div>
-                    {% empty %}
-                        <p>Немає рекомендованих товарів.</p>
                     {% endfor %}
                 </div>
+                <!-- Кнопки керування -->
+                <a class="carousel-control-prev" href="#featured_slider" role="button" data-slide="prev">
+                    <i class="fa fa-long-arrow-left" style="font-size:24px"></i>
+                </a>
+                <a class="carousel-control-next" href="#featured_slider" role="button" data-slide="next">
+                    <i class="fa fa-long-arrow-right" style="font-size:24px"></i>
+                </a>
             </div>
+        </div>
+        <div class="container">
+            <div class="read_bt"><a href="{% url 'catalog:product_list' %}">Дивитися всі</a></div>
         </div>
     </div>
     <!-- featured products section end -->

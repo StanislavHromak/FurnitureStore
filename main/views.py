@@ -1,9 +1,13 @@
 from django.shortcuts import render
 from catalog.models import Product
 
+def chunked(iterable, size):
+    return [iterable[i:i + size] for i in range(0, len(iterable), size)]
+
 def home(request):
-    featured_products = Product.objects.filter(is_featured=True)[:4]
-    return render(request, 'main/index.html', {'featured_products': featured_products})
+    all_products = Product.objects.filter(is_featured=True)
+    chunked_products = chunked(all_products, 3)  # Групуємо по 3 товари
+    return render(request, 'main/index.html', {'chunked_products': chunked_products})
 
 def about(request):
     return render(request, 'main/about.html')
