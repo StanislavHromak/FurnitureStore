@@ -1,32 +1,35 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-<h2>Кошик</h2>
-{% if cart_items %}
-<table>
-  <thead>
-    <tr>
-      <th>Товар</th>
-      <th>Кількість</th>
-      <th>Ціна</th>
-      <th>Разом</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for item in cart_items %}
-    <tr>
-      <td>{{ item.product.name }}</td>
-      <td>{{ item.quantity }}</td>
-      <td>{{ item.product.price }} грн</td>
-      <td>{{ item.total_price }} грн</td>
-      <td><a href="{% url 'cart:cart_remove' item.product.id %}">Видалити</a></td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-<p><strong>Усього:</strong> {{ total }} грн</p>
-<a href="{% url 'orders:create_order' %}">Оформити замовлення</a>
-{% else %}
-<p>Ваш кошик порожній.</p>
-{% endif %}
+    <div class="design_section layout_padding">
+        <div class="container">
+            <h1 class="design_taital">Кошик</h1>
+            {% if cart_items %}
+                <div class="design_section_2">
+                    <div class="row">
+                        {% for item in cart_items %}
+                            <div class="col-md-4">
+                                <div class="box_main">
+                                    <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="image_3">
+                                    <p class="chair_text">{{ item.product.name }}</p>
+                                    <p class="about_text">Кількість: {{ item.quantity }}</p>
+                                    <p class="about_text">Ціна за одиницю: {{ item.product.price }} грн</p>
+                                    <p class="about_text"><strong>Разом: {{ item.total_price }} грн</strong></p>
+                                    <div class="buy_bt">
+                                        <a href="{% url 'cart:cart_remove' item.product.id %}" class="btn btn-primary btn-block">Видалити</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="buy_bt" style="text-align: center; margin-top: 40px;">
+                    <p><strong>Усього: {{ total }} грн</strong></p>
+                    <a href="{% url 'orders:create_order' %}" class="btn btn-primary btn-block" style="max-width: 300px; display: inline-block;">Оформити замовлення</a>
+                </div>
+            {% else %}
+                <p class="about_text" style="text-align: center;">Ваш кошик порожній.</p>
+            {% endif %}
+        </div>
+    </div>
 {% endblock %}
