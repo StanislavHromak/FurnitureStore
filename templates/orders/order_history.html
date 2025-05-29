@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load order_filters %}
+
+{% block title %}Мої замовлення - Магазин меблів{% endblock %}
+
+{% block content %}
+<div class="design_section layout_padding">
+    <div class="container">
+        <h1 class="design_taital">Мої замовлення</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% if orders %}
+            {% for order in orders %}
+                <div class="design_section_2">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="box_main" style="margin-bottom: 20px;">
+                                <h3>Замовлення #{{ order.id }} - {{ order.created_at|date:"d.m.Y H:i" }}</h3>
+                                <p><strong>Адреса доставки:</strong> {{ order.address }}</p>
+                                <p><strong>Сума:</strong> {{ order.total_price }} грн</p>
+                                <ul>
+                                    {% for item in order.items.all %}
+                                        <li>{{ item.product.name }} - {{ item.quantity }} шт. x {{ item.price }} грн = {{ item.quantity|multiply:item.price }} грн</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="about_text" style="text-align: center;">У вас ще немає замовлень.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
