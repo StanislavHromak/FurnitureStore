@@ -13,11 +13,18 @@
                 </div>
             </div>
             <div class="col-md-6">
-                <div class="product_info_box banner_frame"> <!-- клас банерної рамки -->
+                <div class="product_info_box banner_frame">
                     <h1 class="product_title">{{ product.name }}</h1>
                     <p class="product_price">Ціна: {{ product.price }} грн</p>
                     <p class="product_description">{{ product.description }}</p>
-                    <div class="buy_bt"><a href="#" class="btn btn-primary btn-block">Додати до кошика</a></div>
+                    <p class="about_text"><strong>Наявність:</strong> {{ product.quantity }} шт.</p>
+                    {% if product.is_in_stock %}
+                        <div class="readmore_bt" style="text-align: right;">
+                            <a href="{% url 'cart:cart_add' product.id %}">Додати до кошика</a>
+                        </div>
+                    {% else %}
+                        <p class="about_text" style="color: #7c2c0c;">Товар відсутній на складі.</p>
+                    {% endif %}
                 </div>
             </div>
         </div>

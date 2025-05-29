@@ -238,11 +238,11 @@ button {
 }
 
 .bg-light {
-    background-color: #7c2c0c!important;
+    background-color: #7c2c0c !important;
 }
 
 .navbar {
-    padding: .5rem 0px;
+    padding: 0.5rem 0;
     border-top: 20px solid #efe4d1;
     border-bottom: 20px solid #efe4d1;
 }
@@ -253,27 +253,28 @@ button {
 }
 
 .logo {
-    width: 44%;
+    width: 20%; /* Further reduced to 20% to free up more space */
     float: left;
+    max-width: 200px; /* Optional: caps the logo size */
 }
 
 .search_icon {
-    float: left;
+    float: right; /* Moved to the right to balance with navbar items */
 }
 
 .search_icon ul {
-    margin: 0px;
-    padding: 0px;
+    margin: 0;
+    padding: 0;
 }
 
 .search_icon li {
     float: left;
-    padding-left: 30px;
+    padding-left: 15px; /* Reduced padding for tighter spacing */
 }
 
 .navbar-expand-lg .navbar-nav .nav-link {
-    padding-right: 15px;
-    padding-left: 15px;
+    padding-right: 10px; /* Reduced padding for more items */
+    padding-left: 10px;
     color: #fcfefe;
     font-size: 18px;
     text-transform: uppercase;
@@ -284,6 +285,47 @@ button {
     color: #efe4d1;
 }
 
+.navbar-collapse {
+    flex-grow: 2; /* Increased flex-grow to prioritize navbar-collapse space */
+    justify-content: space-between; /* Distributes items with space on both ends */
+}
+
+.navbar-nav {
+    width: 100%;
+    display: flex;
+    justify-content: center; /* Centers items, but space-between will handle spacing */
+}
+
+.search_icon .nav-item a span {
+    position: absolute;
+    top: -5px;
+    right: -10px;
+    background: #efe4d1;
+    color: #7c2c0c;
+    border-radius: 50%;
+    padding: 2px 6px;
+    font-size: 12px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .logo {
+        width: 25%; /* Slightly larger on mobile */
+        max-width: 150px;
+    }
+
+    .navbar-collapse {
+        flex-grow: 1; /* Adjusts space on mobile */
+    }
+
+    .search_icon li {
+        padding-left: 10px; /* Even tighter spacing on mobile */
+    }
+
+    .navbar-nav {
+        justify-content: flex-start; /* Left-align on collapse */
+    }
+}
 
 /* header section end */
 

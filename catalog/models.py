@@ -19,8 +19,8 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', null=True, blank=True, verbose_name="Зображення")
     description = models.TextField(verbose_name="Опис")
     is_featured = models.BooleanField(default=False, verbose_name="Рекомендований")
-    stock = models.PositiveIntegerField(default=0, verbose_name="На складі")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Дата створення")
+    quantity = models.PositiveIntegerField(default=0, verbose_name="На складі")
 
     class Meta:
         verbose_name = "Товар"
@@ -28,3 +28,7 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+    def is_in_stock(self):
+        print(f"Checking stock for {self.name}: quantity = {self.quantity}")
+        return self.quantity > 0

@@ -5,11 +5,11 @@ from .models import Category, Product
 class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug')
     search_fields = ('name',)
-    prepopulated_fields = {'slug': ('name',)}  # Автоматично заповнює slug на основі name
+    prepopulated_fields = {'slug': ('name',)}
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'category', 'price', 'stock', 'is_featured', 'created_at')
+    list_display = ('name', 'category', 'price', 'quantity', 'is_featured', 'created_at')
     list_filter = ('category', 'is_featured', 'created_at')
     search_fields = ('name', 'description')
     prepopulated_fields = {'slug': ('name',)}

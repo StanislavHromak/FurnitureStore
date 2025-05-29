@@ -3,48 +3,47 @@ from django.db.models import Q
 from .models import Product, Category
 
 
-def product_list(request):
+def product_detail(request, product_id):
+    product = get_object_or_404(Product, id=product_id)
+    return render(request, 'catalog/product_detail.html', {'product': product})
+
+
+def shop(request):
     products = Product.objects.all()
     categories = Category.objects.all()
 
-    # Фільтрація за категорією
-    category_id = request.GET.get('category')
-    if category_id:
-        products = products.filter(category_id=category_id)
+    search_query = request.GET.get('search', '')
+    category_id = request.GET.get('category', '')
+    price_min = request.GET.get('price_min', '')
+    price_max = request.GET.get('price_max', '')
 
-    # Пошук за назвою
-    search_query = request.GET.get('search')
+    # Пошук
     if search_query:
-        products = products.filter(Q(name__icontains=search_query))
+        products = products.filter(Q(name__icontains=search_query) | Q(description__icontains=search_query))
 
-    return render(request, 'catalog/product_list.html', {
+    # Фільтр за категорією
+    if category_id.isdigit():
+        products = products.filter(category_id=int(category_id))
+
+    # Фільтр за ціною
+    if price_min.isdigit():
+        products = products.filter(price__gte=price_min)
+    if price_max.isdigit():
+        products = products.filter(price__lte=price_max)
+
+    context = {
         'products': products,
         'categories': categories,
-        'selected_category': category_id,
-        'search_query': search_query
-    })
+        'search_query': search_query,
+        'selected_category': int(category_id) if category_id and category_id.isdigit() else '',
+        'price_min': price_min,
+        'price_max': price_max,
+    }
+    return render(request, 'main/shop.html', context)
 
 
-def category_products(request, category_slug):
-    category = get_object_or_404(Category, slug=category_slug)
-    products = Product.objects.filter(category=category)
-    categories = Category.objects.all()
-    return render(request, 'catalog/product_list.html', {
-        'category': category,
-        'products': products,
-        'categories': categories
-    })
 
 
-def product_detail(request, product_id):  # Змінюємо параметр на product_id
-    product = get_object_or_404(Product, id=product_id)  # Використовуємо id замість slug
-    return render(request, 'catalog/product_detail.html', {
-        'product': product
-    })
 
 
-def featured_products(request):
-    products = Product.objects.filter(is_featured=True)[:6]
-    return render(request, 'catalog/featured_products.html', {
-        'products': products
-    })
+
