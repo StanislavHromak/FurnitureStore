@@ -27,8 +27,8 @@
                         </div>
                     {% endfor %}
                 </div>
-                <div class="buy_bt" style="text-align: center; margin-top: 40px;">
-                    <p><strong>Усього: {{ total }} грн</strong></p>
+                <div class="buy_bt cart-summary" style="text-align: center; margin-top: 40px;">
+                    <p class="total-price"><strong>Усього: <span id="cart-total">{{ total }}</span> грн</strong></p>
                 </div>
             </div>
             <form method="post" class="mt-4">
@@ -54,7 +54,7 @@
                     <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
                 </div>
                 <div class="buy_bt" style="text-align: center; margin-top: 20px;">
-                    <button type="submit" class="btn btn-primary btn-block" style="max-width: 300px; display: inline-block;">Підтвердити замовлення</button>
+                    <button type="submit" class="btn btn-primary btn-block checkout-btn">Підтвердити</button>
                 </div>
             </form>
         {% else %}

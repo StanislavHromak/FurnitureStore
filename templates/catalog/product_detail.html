@@ -15,9 +15,10 @@
             <div class="col-md-6">
                 <div class="product_info_box banner_frame">
                     <h1 class="product_title">{{ product.name }}</h1>
-                    <p class="product_price">Ціна: {{ product.price }} грн</p>
+                    <p class="product_category"><strong>Категорія:</strong> {{ product.category.name }}</p>
+                    <p class="product_price"><strong>Ціна:</strong> {{ product.price }} грн</p>
+                    <p class="product_quantity"><strong>Наявність:</strong> {{ product.quantity }} шт.</p>
                     <p class="product_description">{{ product.description }}</p>
-                    <p class="about_text"><strong>Наявність:</strong> {{ product.quantity }} шт.</p>
                     {% if product.is_in_stock %}
                         <div class="readmore_bt" style="text-align: right;">
                             <a href="{% url 'cart:cart_add' product.id %}">Додати до кошика</a>
