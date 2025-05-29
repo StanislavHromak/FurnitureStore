@@ -19,13 +19,16 @@ from django.urls import include
 from django.urls import path
 from django.conf import settings
 from django.conf.urls.static import static
+from catalog.views import shop
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('catalog/', include('catalog.urls')),
     path('users/', include('users.urls')),
-    path('cart/', include('cart.urls'))
+    path('cart/', include('cart.urls')),
+    path('orders/', include('orders.urls')),
+    path('shop/', shop, name='shop')
 ]
 
 # Маршрути для статичних файлів і медіафайлів у режимі розробки

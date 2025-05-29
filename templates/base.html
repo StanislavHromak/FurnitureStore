@@ -32,6 +32,17 @@
     <!-- FancyBox -->
     <link rel="stylesheet" href="{% static 'css/jquery.fancybox.min.css' %}" media="screen">
 </head>
+<script>
+    document.querySelectorAll('.dropdown-item').forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault(); // Запобігаємо переходу одразу
+            var categoryInput = document.getElementById('categoryInput');
+            categoryInput.value = this.getAttribute('href').match(/category=(\d+)/)?.[1] || '';
+            document.getElementById('categoryDropdown').textContent = this.textContent;
+            document.querySelector('form').submit();
+        });
+    });
+</script>
 <body>
     <!-- header section start -->
     <div class="header_section">
@@ -53,23 +64,31 @@
                             <a class="nav-link" href="{% url 'main:design' %}">Наш дизайн</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'main:shop' %}">Товари</a>
+                            <a class="nav-link" href="{% url 'shop' %}">Товари</a>
                         </li>
+                        {% if user.is_authenticated %}
+                            <li class="nav-item">
+                                <a class="nav-link" href="{% url 'orders:order_history' %}">Мої замовлення</a>
+                            </li>
+                        {% endif %}
                     </ul>
                     <form class="form-inline my-2 my-lg-0">
                         <div class="search_icon">
                             <ul class="navbar-nav">
                                 {% if user.is_authenticated %}
-                                  <a href="{% url 'cart:cart_detail' %}" style="position: relative;">
-                                    🛒
-                                    <span style="position: absolute; top: -5px; right: -10px; background: red; color: white; border-radius: 50%; padding: 2px 6px; font-size: 12px;">
-                                      {{ user.cart_items.count }}
-                                    </span>
-                                  </a>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{% url 'cart:cart_detail' %}">
+                                            🛒
+                                            {% with cart_items=user.cart_items.all %}
+                                                {% if cart_items %}
+                                                    <span>{{ cart_items|length }}</span>
+                                                {% else %}
+                                                    <span>0</span>
+                                                {% endif %}
+                                            {% endwith %}
+                                        </a>
+                                    </li>
                                 {% endif %}
-                                <li class="nav-item">
-                                    <a href="#"><img src="{% static 'images/search-icon.png' %}" alt="Пошукова іконка"></a>
-                                </li>
                                 <li class="nav-item">
                                     {% if user.is_authenticated %}
                                         <a href="{% url 'users:logout' %}"><img src="{% static 'images/user-icon.png' %}" alt="Вийти"></a>
@@ -100,15 +119,15 @@
     <!-- footer section start -->
     <div class="footer_section">
         <div class="container">
-            <div class="footer_location_text">
+            <div class="footer_location_text" style="margin-bottom: 40px;">
                 <ul>
-                    <li><img src="{% static 'images/map-icon.png' %}" alt="Іконка карти"><span class="padding_left_10"><a href="https://maps.app.goo.gl/1X2Y3Z4g5h6L7k9A8" target="_blank">м. Київ, вул. Січових Стрільців, 15</a></span></li>
+                    <li><img src="{% static 'images/map-icon.png' %}" alt="Іконка карти"><span class="padding_left_10"><a href="https://maps.app.goo.gl/ZHsDzXiAw1mRZXrw9" target="_blank">м. Київ, вул. Січових Стрільців, 15</a></span></li>
                     <li><img src="{% static 'images/call-icon.png' %}" alt="Іконка телефону"><span class="padding_left_10"><a href="tel:+380671234567">Телефонуйте: +380 67 123 4567</a></span></li>
                     <li><img src="{% static 'images/mail-icon.png' %}" alt="Іконка пошти"><span class="padding_left_10"><a href="mailto:info@mebli-store.com.ua">info@mebli-store.com.ua</a></span></li>
                 </ul>
             </div>
-            <div class="row">
-                <div class="col-lg-3 col-sm-6">
+            <div class="row" style="display: flex; justify-content: space-between; align-items: stretch; text-align: center;">
+                <div class="col-lg-3 col-sm-6 footer-column">
                     <h2 class="useful_text">Корисні посилання</h2>
                     <div class="footer_menu">
                         <ul>
@@ -118,15 +137,16 @@
                         </ul>
                     </div>
                 </div>
-                <div class="col-lg-3 col-sm-6">
+                <div class="col-lg-3 col-sm-6 footer-column">
                     <h2 class="useful_text">Соціальні мережі</h2>
                     <div id="social">
-                        <a class="facebookBtn smGlobalBtn active" href="#" ></a>
+                        <a class="facebookBtn smGlobalBtn" href="#" ></a>
                         <a class="twitterBtn smGlobalBtn" href="#" ></a>
                         <a class="linkedinBtn smGlobalBtn" href="#" ></a>
+                        <a class="googleplusBtn smGlobalBtn" href="#" ></a>
                     </div>
                 </div>
-                <div class="col-sm-6 col-lg-3">
+                <div class="col-lg-3 col-sm-6 footer-column">
                     <h1 class="useful_text">Наш ремонтний центр</h1>
                     <p class="footer_text">Звертайтеся до нашого центру для якісного обслуговування та ремонту ваших меблів.
                     Пропонуємо професійний ремонт меблів: відновлення покриття, заміна фурнітури та багато іншого.</p>

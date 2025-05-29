@@ -2,45 +2,79 @@
 {% load static %}
 {% block title %}Магазин - Магазин меблів{% endblock %}
 {% block content %}
-    <!-- design section start -->
-    <div class="design_section layout_padding">
-        <div id="my_slider" class="carousel slide" data-ride="carousel">
-            <div class="carousel-inner">
-                <div class="carousel-item active">
-                    <div class="container">
-                        <h1 class="design_taital">Наші товари</h1>
-                        <p class="design_text">Ознайомтеся з нашими унікальними меблями</p>
-                        <div class="design_section_2">
-                            <div class="row">
-                                {% for product in products %}
-                                    <div class="col-md-4">
-                                        <div class="box_main">
-                                            <p class="chair_text">{{ product.name }}</p>
-                                            <div class="image_3">
-                                                <img src="{{ product.image.url }}" alt="{{ product.name }}">
-                                            </div>
-                                            <p class="chair_text">Ціна: {{ product.price }} грн</p>
-                                            <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a></div>
-                                        </div>
-                                    </div>
-                                {% empty %}
-                                    <p>Немає рекомендованих товарів.</p>
+<div class="design_section layout_padding">
+    <div class="container">
+        <h1 class="design_taital">Наші товари</h1>
+        <p class="design_text">Ознайомтеся з нашими унікальними меблями</p>
+
+        <!-- 🔍 Форма фільтрації -->
+        <form method="get" action="{% url 'shop' %}" class="mb-4">
+            <div class="form-row">
+                <div class="col">
+                    <input type="text" name="search" class="form-control" placeholder="Пошук..." value="{{ search_query }}">
+                </div>
+                <div class="col">
+                    <div class="dropdown">
+                        <button class="btn btn-primary btn-block dropdown-toggle" type="button" id="categoryDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if selected_category %}
+                                {% for category in categories %}
+                                    {% if category.id == selected_category %}
+                                        {{ category.name }}
+                                    {% endif %}
                                 {% endfor %}
-                            </div>
+                            {% else %}
+                                Вибрати категорію
+                            {% endif %}
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="categoryDropdown">
+                            <a class="dropdown-item" href="{% url 'shop' %}?{% if search_query %}search={{ search_query }}&{% endif %}{% if price_min %}price_min={{ price_min }}&{% endif %}{% if price_max %}price_max={{ price_max }}{% endif %}">Всі категорії</a>
+                            {% for category in categories %}
+                                <a class="dropdown-item" href="{% url 'shop' %}?category={{ category.id }}{% if search_query %}&search={{ search_query }}{% endif %}{% if price_min %}&price_min={{ price_min }}{% endif %}{% if price_max %}&price_max={{ price_max }}{% endif %}">{{ category.name }}</a>
+                            {% empty %}
+                                <a class="dropdown-item" href="#">Категорії відсутні</a>
+                            {% endfor %}
                         </div>
+                        <input type="hidden" name="category" id="categoryInput" value="{{ selected_category|default_if_none:'' }}">
                     </div>
                 </div>
+                <div class="col">
+                    <input type="number" name="price_min" class="form-control" placeholder="Ціна від" value="{{ price_min }}">
+                </div>
+                <div class="col">
+                    <input type="number" name="price_max" class="form-control" placeholder="Ціна до" value="{{ price_max }}">
+                </div>
+                <div class="col">
+                    <button type="submit" class="btn btn-primary btn-block">Застосувати</button>
+                </div>
             </div>
-            <a class="carousel-control-prev" href="#my_slider" role="button" data-slide="prev">
-                <i class="fa fa-long-arrow-left" style="font-size:24px"></i>
-            </a>
-            <a class="carousel-control-next" href="#my_slider" role="button" data-slide="next">
-                <i class="fa fa-long-arrow-right" style="font-size:24px"></i>
-            </a>
+        </form>
+
+
+        <!-- 🪑 Товари -->
+        <div class="design_section_2">
+            <div class="row">
+                {% for product in products %}
+                    <div class="col-md-4 mb-4">
+                        <div class="box_main">
+                            <p class="chair_text">{{ product.name }}</p>
+                            <div class="image_3">
+                                {% if product.image %}
+                                    <img src="{{ product.image.url }}" alt="{{ product.name }}">
+                                {% else %}
+                                    <p>Зображення відсутнє</p>
+                                {% endif %}
+                            </div>
+                            <p class="chair_text">Ціна: {{ product.price }} грн</p>
+                            <div class="buy_bt"><a href="{% url 'catalog:product_detail' product.id %}">Дізнатися більше</a></div>
+                        </div>
+                    </div>
+                {% empty %}
+                    <p class="design_text" style="text-align: center;">Товарів не знайдено.</p>
+                {% endfor %}
+            </div>
         </div>
-        <div class="container">
-            <div class="read_bt"><a href="{% url 'catalog:product_list' %}">Дивитися всі</a></div>
-        </div>
+
+        <div class="read_bt"><a href="{% url 'main:home' %}">Повернутися на головну</a></div>
     </div>
-    <!-- design section end -->
+</div>
 {% endblock %}

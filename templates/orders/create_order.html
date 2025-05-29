@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Оформлення замовлення - Магазин меблів{% endblock %}
+
+{% block content %}
+<div class="design_section layout_padding">
+    <div class="container">
+        <h1 class="design_taital">Оформлення замовлення</h1>
+        {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% if cart_items %}
+            <div class="design_section_2">
+                <div class="row">
+                    {% for item in cart_items %}
+                        <div class="col-md-4">
+                            <div class="box_main">
+                                <img src="{{ item.product.image.url }}" alt="{{ item.product.name }}" class="image_3">
+                                <p class="chair_text">{{ item.product.name }}</p>
+                                <p class="about_text">Кількість: {{ item.quantity }}</p>
+                                <p class="about_text">Ціна: {{ item.product.price }} грн</p>
+                                <p class="about_text"><strong>Разом: {{ item.total_price }} грн</strong></p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="buy_bt" style="text-align: center; margin-top: 40px;">
+                    <p><strong>Усього: {{ total }} грн</strong></p>
+                </div>
+            </div>
+            <form method="post" class="mt-4">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="first_name">Ім'я *</label>
+                    <input type="text" class="form-control" id="first_name" name="first_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="last_name">Прізвище *</label>
+                    <input type="text" class="form-control" id="last_name" name="last_name" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Електронна пошта *</label>
+                    <input type="email" class="form-control" id="email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Телефон *</label>
+                    <input type="text" class="form-control" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Адреса доставки *</label>
+                    <textarea class="form-control" id="address" name="address" rows="3" required></textarea>
+                </div>
+                <div class="buy_bt" style="text-align: center; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary btn-block" style="max-width: 300px; display: inline-block;">Підтвердити замовлення</button>
+                </div>
+            </form>
+        {% else %}
+            <p class="about_text" style="text-align: center;">Ваш кошик порожній.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
