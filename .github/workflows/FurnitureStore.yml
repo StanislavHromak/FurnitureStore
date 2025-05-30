@@ -47,17 +47,26 @@ jobs:
           --name furniture-store \
           -e DEBUG=1 \
           furniture-store:latest || { echo "Container failed to start"; exit 1; }
-        docker logs furniture-store
+        sleep 5
+        docker logs furniture-store || { echo "Failed to get logs"; exit 1; }
+
+    - name: Apply migrations
+      run: |
+        docker exec furniture-store python manage.py migrate || { echo "Migration failed"; exit 1; }
+
+    - name: Check port availability
+      run: |
+        docker exec furniture-store netstat -tuln | grep 8000 || echo "Port 8000 is not listening"
 
     - name: Wait for server to be ready
       run: |
-        sleep 15
-        for i in {1..40}; do
+        sleep 30
+        for i in {1..60}; do
           if curl --output /dev/null --silent --fail http://localhost:8000; then
             echo "Server is up!"
             exit 0
           fi
-          echo "Waiting for server... ($i/40)"
+          echo "Waiting for server... ($i/60)"
           sleep 2
         done
         echo "Server did not start in time"
