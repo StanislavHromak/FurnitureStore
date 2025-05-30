@@ -32,8 +32,13 @@ jobs:
         docker buildx build \
           --cache-from type=local,src=/tmp/.buildx-cache \
           --cache-to type=local,dest=/tmp/.buildx-cache \
+          --load \
           -t furniture-store:latest \
           . || { echo "Build failed"; exit 1; }
+
+    - name: Verify Docker image
+      run: |
+        docker images | grep furniture-store || { echo "Image not found"; exit 1; }
 
     - name: Run Docker container
       run: |
