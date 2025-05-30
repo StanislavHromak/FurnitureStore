@@ -16,7 +16,4 @@ def design(request):
     products = Product.objects.all()[:6]
     return render(request, 'main/design.html', {'products': products})
 
-def shop(request):
-    products = Product.objects.all()  # Усі товари для магазину
-    return render(request, 'main/shop.html', {'products': products})
 
