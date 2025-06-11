@@ -1,12 +1,10 @@
-name: FurnitureStore
+name: Django CI
 
 on:
   push:
-    branches:
-      - master
+    branches: [ master ]
   pull_request:
-    branches:
-      - master
+    branches: [ master ]
 
 jobs:
   build-and-test:
@@ -19,68 +17,12 @@ jobs:
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v3
 
-    - name: Cache Docker layers
-      uses: actions/cache@v4
-      with:
-        path: /tmp/.buildx-cache
-        key: ${{ runner.os }}-buildx-${{ github.sha }}
-        restore-keys: |
-          ${{ runner.os }}-buildx-
-
     - name: Build Docker image
-      run: |
-        docker buildx build \
-          --cache-from type=local,src=/tmp/.buildx-cache \
-          --cache-to type=local,dest=/tmp/.buildx-cache \
-          --load \
-          -t furniture-store:latest \
-          . || { echo "Build failed"; exit 1; }
+      run: docker build -t furniturestore-web:latest .
 
-    - name: Verify Docker image
+    - name: Run tests in Docker container
       run: |
-        docker images | grep furniture-store || { echo "Image not found"; exit 1; }
-
-    - name: Run Docker container
-      run: |
-        docker run -d \
-          -p 8000:8000 \
-          --name furniture-store \
+        docker run --rm \
           -e DEBUG=1 \
-          furniture-store:latest || { echo "Container failed to start"; exit 1; }
-        sleep 5
-        docker logs furniture-store || { echo "Failed to get logs"; exit 1; }
-
-    - name: Apply migrations
-      run: |
-        docker exec furniture-store python manage.py migrate || { echo "Migration failed"; exit 1; }
-
-    - name: Check port availability
-      run: |
-        docker exec furniture-store netstat -tuln | grep 8000 || echo "Port 8000 is not listening"
-
-    - name: Wait for server to be ready
-      run: |
-        sleep 30
-        for i in {1..60}; do
-          if curl --output /dev/null --silent --fail http://localhost:8000; then
-            echo "Server is up!"
-            exit 0
-          fi
-          echo "Waiting for server... ($i/60)"
-          sleep 2
-        done
-        echo "Server did not start in time"
-        exit 1
-
-    - name: Check container status
-      run: docker ps -a | grep furniture-store
-
-    - name: Run tests
-      run: |
-        docker exec furniture-store python manage.py test || { echo "Tests failed"; exit 1; }
-
-    - name: Cleanup
-      if: always()
-      run: |
-        docker stop furniture-store || true
-        docker rm furniture-store || true
+          furniturestore-web:latest \
+          python manage.py test
