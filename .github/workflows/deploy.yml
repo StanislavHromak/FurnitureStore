@@ -1,0 +1,54 @@
+name: Deploy to PythonAnywhere
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      # Перевірка коду з репозиторію
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Налаштування Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Встановлення залежностей
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # Виконання модульних тестів
+      - name: Run tests
+        run: |
+          python manage.py test
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      # Перевірка коду
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Налаштування Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # Розгортання на PythonAnywhere
+      - name: Deploy to PythonAnywhere
+        uses: umuttopalak/pythonanywhere-deploy-action@v1.1.0
+        with:
+          host: 'www.pythonanywhere.com'
+          username: ${{ secrets.PYTHONANYWHERE_USERNAME }}
+          api_token: ${{ secrets.PYTHONANYWHERE_API_TOKEN }}
+          domain_name: ${{ secrets.PYTHONANYWHERE_DOMAIN }}
